@@ -24,14 +24,18 @@ public class Cnab {
 
     private Integer valor;
 
+    @Column(length = 11)
     private String cpf;
 
+    @Column(length = 12)
     private String cartao;
 
     private LocalTime hora;
 
+    @Column(length = 20)
     private String donoLoja;
 
+    @Column(length = 20)
     private String nomeLoja;
 
 }
