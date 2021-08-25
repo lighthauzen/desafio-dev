@@ -22,7 +22,6 @@ public class TiposTransacao {
     private String natureza;
 
     @Type(type = "numeric_boolean")
-    @Column(columnDefinition = "default 0")
     private boolean sinal;
 
 }
