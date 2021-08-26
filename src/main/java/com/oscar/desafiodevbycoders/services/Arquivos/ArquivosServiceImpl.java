@@ -6,8 +6,7 @@ import com.oscar.desafiodevbycoders.services.Crud.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -27,8 +26,40 @@ public class ArquivosServiceImpl implements ArquivosService{
 
 
     @Override
-    public List<Cnab> converterArquivo(File file) {
-        return null;
+    public List<Cnab> converterArquivo(InputStream inputStream) {
+        List<Cnab> cnabList = new ArrayList<>();
+        List<String> stringList = new ArrayList<>();
+        try (Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream)).lines();) {
+            stringList = stream.collect(Collectors.toList());
+        }
+
+        stringList.forEach(string -> {
+
+            Integer tipo = Integer.parseInt(string.substring(0,1));
+            Tipos_trans tipos_trans = crudService.getTTbyId(tipo);
+            LocalDate data = LocalDate.parse(string.substring(1,9),  DateTimeFormatter.BASIC_ISO_DATE);
+            Integer valor = Integer.parseInt(string.substring(9,19)) / 100;
+            String cpf = string.substring(19,30);
+            String cartao = string.substring(30,42);
+            LocalTime hora = LocalTime.parse(string.substring(42, 48), DateTimeFormatter.ofPattern("HHmmss"));
+            String donoLoja = string.substring(48,62).strip();
+            String nomeLoja = string.substring(62, string.length()).strip();
+
+            Cnab objeto = new Cnab();
+            objeto.setFk_tipos_trans(tipos_trans);
+            objeto.setData(data);
+            objeto.setValor(valor);
+            objeto.setCpf(cpf);
+            objeto.setCartao(cartao);
+            objeto.setHora(hora);
+            objeto.setDono_loja(donoLoja);
+            objeto.setNome_loja(nomeLoja);
+
+            crudService.criarCnab(objeto);
+        });
+        return cnabList;
+
+
     }
 
     @Override

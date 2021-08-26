@@ -15,7 +15,7 @@ public class InfosController {
     @Autowired
     CrudService crudService;
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity listarTodos(@RequestBody Cnab cnab) {
         return crudService.criarCnab(cnab);
     }
