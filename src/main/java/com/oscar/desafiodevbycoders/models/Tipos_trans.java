@@ -11,7 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TiposTransacao {
+@Table(name = "tipos_trans")
+public class Tipos_trans {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

@@ -1,6 +1,5 @@
 package com.oscar.desafiodevbycoders.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +18,9 @@ public class Cnab {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer tipo;
+    @ManyToOne
+    @JoinColumn(name = "fk_tipos_trans", referencedColumnName = "id")
+    private Tipos_trans fk_tipos_trans;
 
     private LocalDate data;
 
@@ -34,9 +35,9 @@ public class Cnab {
     private LocalTime hora;
 
     @Column(length = 20)
-    private String donoLoja;
+    private String dono_loja;
 
     @Column(length = 20)
-    private String nomeLoja;
+    private String nome_loja;
 
 }

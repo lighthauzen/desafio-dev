@@ -1,6 +1,7 @@
 package com.oscar.desafiodevbycoders.services.Arquivos;
 
 import com.oscar.desafiodevbycoders.models.Cnab;
+import com.oscar.desafiodevbycoders.models.Tipos_trans;
 import com.oscar.desafiodevbycoders.services.Crud.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +23,8 @@ public class ArquivosServiceImpl implements ArquivosService{
 
     @Autowired
     CrudService crudService;
+
+
 
     @Override
     public List<Cnab> converterArquivo(File file) {
@@ -43,6 +45,7 @@ public class ArquivosServiceImpl implements ArquivosService{
         stringList.forEach(string -> {
 
             Integer tipo = Integer.parseInt(string.substring(0,1));
+            Tipos_trans tipos_trans = crudService.getTTbyId(tipo);
             LocalDate data = LocalDate.parse(string.substring(1,9),  DateTimeFormatter.BASIC_ISO_DATE);
             Integer valor = Integer.parseInt(string.substring(9,19)) / 100;
             String cpf = string.substring(19,30);
@@ -52,14 +55,14 @@ public class ArquivosServiceImpl implements ArquivosService{
             String nomeLoja = string.substring(62, string.length()).strip();
 
             Cnab objeto = new Cnab();
-            objeto.setTipo(tipo);
+            objeto.setFk_tipos_trans(tipos_trans);
             objeto.setData(data);
             objeto.setValor(valor);
             objeto.setCpf(cpf);
             objeto.setCartao(cartao);
             objeto.setHora(hora);
-            objeto.setDonoLoja(donoLoja);
-            objeto.setNomeLoja(nomeLoja);
+            objeto.setDono_loja(donoLoja);
+            objeto.setNome_loja(nomeLoja);
 
             crudService.criarCnab(objeto);
         });
