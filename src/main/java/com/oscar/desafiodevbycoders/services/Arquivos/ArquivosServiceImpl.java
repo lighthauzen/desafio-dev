@@ -5,6 +5,7 @@ import com.oscar.desafiodevbycoders.models.Tipos_trans;
 import com.oscar.desafiodevbycoders.services.Crud.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -23,13 +24,22 @@ public class ArquivosServiceImpl implements ArquivosService{
     @Autowired
     CrudService crudService;
 
+    public  static File multipartToFile(MultipartFile multipart, String fileName) throws IllegalStateException, IOException {
+        File convFile = new File(System.getProperty("java.io.tmpdir")+"/"+fileName);
+        multipart.transferTo(convFile);
+        System.out.println(convFile.getName());
+        return convFile;
+    }
 
 
     @Override
-    public List<Cnab> converterArquivo(InputStream inputStream) {
+    public List<Cnab> converterArquivo(MultipartFile multipartFile) throws IOException {
+
+        File dados = multipartToFile(multipartFile, "cnab");
+        System.out.println(dados);
         List<Cnab> cnabList = new ArrayList<>();
-        List<String> stringList = new ArrayList<>();
-        try (Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream)).lines();) {
+        List<String> stringList;
+        try (Stream<String> stream = Files.lines(Paths.get(System.getProperty("java.io.tmpdir")+"/"+"cnab"))) {
             stringList = stream.collect(Collectors.toList());
         }
 
