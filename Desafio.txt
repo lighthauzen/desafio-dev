@@ -1,26 +1,3 @@
-# Intruções
-
-Back-end: abrir projeto e rodar pela classe principal
-
-Front-end: abrir projeto, instalar dependencias (npm install) e depois inicializar(npm start)
-
-
-# Rotas
-
-Rota base: 
- localhost:8080
-
-Endpoints: 
- - POST /arquivos/upload
-  consome arquivo tipo multipart
-  Essa rota é chamada quando é clicado o botãqo para enviar arquivo
-
-- GET /infos
-  Retorna todas as entradas de CNAB no banco em forta de uma Array
-
-
-
-
 # Desafio programação - para vaga desenvolvedor
 
 Por favor leiam este documento do começo ao fim, com muita atenção.
